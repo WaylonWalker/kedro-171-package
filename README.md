@@ -13,11 +13,16 @@ echo "CONF_ROOT = Path(__file__).parent / 'conf'" >> src/kedro_171_package/setti
 ```
 
 * Add nodes to hooks.py
-* add __main__.py
+* add `__main__.py`
+* add `__init__.py`
 
 ## Devloping this project from ipython
 
-# using __init
+```
+pip install -e src
+```
+
+# using `__init__.py`
 ## Full run
 
 ``` python
@@ -25,8 +30,6 @@ from kedro_171_package import Kedro171
 k = Kedro171
 k.run()
 ```
-
-
 
 ## Catalog Operations
 
@@ -46,7 +49,7 @@ dev_pipe = Pipeline([node for node in k.pipeline.nodes if 'add' in node.name])
 k.run(dev_pipe)
 ```
 
-# Using __main__
+# Using `__main__.py`
 _just started playing with this not sure if I like it or not_
 
 ## Full run
