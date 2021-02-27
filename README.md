@@ -22,6 +22,11 @@ echo "CONF_ROOT = Path(__file__).parent / 'conf'" >> src/kedro_171_package/setti
 pip install -e src
 ```
 
+Now the package is installed and can be used from anywhere.
+
+**note** typically I use cloud storage or a database to store data.  This package is a bit awkward as it will store data in the directory the package is in.  Without using -e this will be in site-packages.
+
+
 # using `__init__.py`
 ## Full run
 
