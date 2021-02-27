@@ -1,0 +1,15 @@
+add_one:
+  type: pickle.PickleDataSet
+  filepath: data/add_one.pkl
+join:
+  type: pickle.PickleDataSet
+  filepath: data/join.pkl
+range_one:
+  type: pickle.PickleDataSet
+  filepath: data/range_one.pkl
+range_two:
+  type: pickle.PickleDataSet
+  filepath: data/range_two.pkl
+square_range_one:
+  type: pickle.PickleDataSet
+  filepath: data/square_range_one.pkl

@@ -28,4 +28,42 @@
 """kedro-171-package
 """
 
+import os
+from pathlib import Path
+
+from kedro.runner import SequentialRunner
+
+from kedro.framework.session import KedroSession
+from kedro.framework.session.session import _activate_session
+from kedro.framework.project import configure_project
+
 __version__ = "0.1"
+
+
+def get_session():
+    "Get kedro session"
+    cur_path = os.getcwd()
+    os.chdir(Path(__file__).parents[2])
+    configure_project("kedro_171_package")
+    session = KedroSession.create(Path(__file__).resolve().parent.name)
+    _activate_session(session, force=True)
+    os.chdir(cur_path)
+
+    return session
+
+
+class Kedro171:
+    def __init__(self):
+        self.session = get_session()
+        self.context = self.session.load_context()
+        self.catalog = self.context.catalog
+        self.pipeline = self.context.pipeline
+        self.pipelines = self.context.pipelines
+        self.runner = SequentialRunner()
+
+    def run(self, pipeline=None, catalog=None):
+        if pipeline is None:
+            pipeline = self.pipeline
+        if catalog is None:
+            catalog = self.catalog
+        self.runner.run(pipeline, catalog)

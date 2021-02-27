@@ -1,5 +1,81 @@
 # kedro-171-package
 
+## How this repo was created
+
+Run this in bash
+
+``` bash
+kedro new
+cd kedro-171-package
+mv conf src/kedro_171_package
+echo "from pathlib import Path" >> src/kedro_171_package/settings.py
+echo "CONF_ROOT = Path(__file__).parent / 'conf'" >> src/kedro_171_package/settings.py
+```
+
+* Add nodes to hooks.py
+* add __main__.py
+
+## Devloping this project from ipython
+
+# using __init
+## Full run
+
+``` python
+from kedro_171_package import Kedro171
+k = Kedro171
+k.run()
+```
+
+
+
+## Catalog Operations
+
+``` python 
+from kedro_171_package import Kedro171
+k = Kedro171
+k.catalog.list()
+k.catalog.load('join')
+```
+
+## Running Segments
+``` python 
+from kedro_171_package import Kedro171
+k = Kedro171
+from kedro.pipeline import Pipeline
+dev_pipe = Pipeline([node for node in k.pipeline.nodes if 'add' in node.name])
+k.run(dev_pipe)
+```
+
+# Using __main__
+_just started playing with this not sure if I like it or not_
+
+## Full run
+
+``` python
+%run -m kedro_171_package
+session.run()
+```
+
+## Catalog Operations
+
+``` python 
+%run -m kedro_171_package
+catalog.list()
+catalog.load('join')
+```
+
+## Running Segments
+``` python 
+%run -m kedro_171_package
+from kedro.pipeline import Pipeline
+dev_pipe = Pipeline([node for node in pipeline.nodes if 'add' in node.name])
+runner.run(dev_pipe, catalog)
+```
+
+
+---
+_default readme_
+
 ## Overview
 
 This is your new Kedro project, which was generated using `Kedro 0.17.0`.

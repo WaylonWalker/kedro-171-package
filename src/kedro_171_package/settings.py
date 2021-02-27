@@ -49,3 +49,5 @@ HOOKS = (ProjectHooks(),)
 
 # Define the configuration folder. Defaults to `conf`
 # CONF_ROOT = "conf"
+from pathlib import Path
+CONF_ROOT = Path(__file__).parent / 'conf'

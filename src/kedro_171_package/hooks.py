@@ -32,7 +32,7 @@ from typing import Any, Dict, Iterable, Optional
 from kedro.config import ConfigLoader
 from kedro.framework.hooks import hook_impl
 from kedro.io import DataCatalog
-from kedro.pipeline import Pipeline
+from kedro.pipeline import Pipeline, node
 from kedro.versioning import Journal
 
 
@@ -46,11 +46,49 @@ class ProjectHooks:
 
         """
 
-        return {"__default__": Pipeline([])}
+        return {
+            "__default__": Pipeline(
+                [
+                    node(
+                        lambda: range(10),
+                        inputs=None,
+                        outputs="range_one",
+                        name="create_range_one",
+                    ),
+                    node(
+                        lambda _range: [i ** 2 for i in _range],
+                        inputs="range_one",
+                        outputs="square_range_one",
+                        name="create_square_range_one",
+                    ),
+                    node(
+                        lambda _range: [i + 1 for i in _range],
+                        inputs="square_range_one",
+                        outputs="add_one",
+                        name="create_add_one",
+                    ),
+                    node(
+                        lambda: range(100, 110),
+                        inputs=None,
+                        outputs="range_two",
+                        name="create_range_two",
+                    ),
+                    node(
+                        lambda one, two: [*one, *two],
+                        inputs=["add_one", "range_two"],
+                        outputs="join",
+                        name="create_join",
+                    ),
+                ]
+            )
+        }
 
     @hook_impl
     def register_config_loader(
-        self, conf_paths: Iterable[str], env: str, extra_params: Dict[str, Any],
+        self,
+        conf_paths: Iterable[str],
+        env: str,
+        extra_params: Dict[str, Any],
     ) -> ConfigLoader:
         return ConfigLoader(conf_paths)
 
